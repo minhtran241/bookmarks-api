@@ -47,7 +47,7 @@ export class AuthService {
     }
   }
 
-  async login(dto: LoginDto): Promise<User> {
+  async login(dto: LoginDto): Promise<{ access_token: string }> {
     try {
       // find the user by email
       const user = await this.prisma.user.findUniqueOrThrow({
@@ -61,9 +61,8 @@ export class AuthService {
       if (!pwMatches) {
         throw new NotFoundError('Incorrect credentials');
       }
-      // send back the user
-      delete user.hash;
-      return user;
+      // return signed jwt
+      return this.signToken(user.id, user.email);
     } catch (err) {
       // if user does not exist throw exception
       if (err instanceof NotFoundError) {
