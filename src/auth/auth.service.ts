@@ -7,12 +7,19 @@ import {
   NotFoundError,
   PrismaClientKnownRequestError,
 } from '@prisma/client/runtime';
+import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private config: ConfigService,
+    private prisma: PrismaService,
+    private jwt: JwtService,
+  ) {}
 
-  async signup(dto: SignupDto) {
+  async signup(dto: SignupDto): Promise<{ access_token: string }> {
     // generate the password hash
     const hash = await argon2.hash(dto.password);
     // generate the slug based on email
@@ -27,9 +34,8 @@ export class AuthService {
           hash,
         },
       });
-      delete user.hash;
-      // return the saved user
-      return user;
+      // return signed jwt
+      return this.signToken(user.id, user.email);
     } catch (err) {
       if (err instanceof PrismaClientKnownRequestError) {
         // if try to create new record with the unique field that has been violated
@@ -41,7 +47,7 @@ export class AuthService {
     }
   }
 
-  async login(dto: LoginDto) {
+  async login(dto: LoginDto): Promise<User> {
     try {
       // find the user by email
       const user = await this.prisma.user.findUniqueOrThrow({
@@ -65,5 +71,25 @@ export class AuthService {
       }
       throw new ForbiddenException(err.message);
     }
+  }
+
+  async signToken(
+    userId: number,
+    email: string,
+  ): Promise<{ access_token: string }> {
+    const payload = {
+      sub: userId,
+      email,
+    };
+
+    const token = await this.jwt.signAsync(payload, {
+      expiresIn:
+        this.config.getOrThrow('JWT_EXPIRATION_IN_MINUTES') + 'm',
+      secret: this.config.getOrThrow('JWT_SECRET'),
+    });
+
+    return {
+      access_token: token,
+    };
   }
 }
