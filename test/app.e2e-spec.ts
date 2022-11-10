@@ -9,6 +9,7 @@ import { PrismaService } from '../src/prisma/prisma.service';
 import { AppModule } from '../src/app.module';
 import { ConfigService } from '@nestjs/config';
 import { SignupDto, LoginDto } from '../src/auth/dto';
+import { EditUserDto } from '../src/user/dto';
 
 describe('App e2e', () => {
   const config = new ConfigService();
@@ -117,15 +118,52 @@ describe('App e2e', () => {
           .spec()
           .post(`/auth/login`)
           .withBody(dto)
-          .expectStatus(HttpStatus.OK);
+          .expectStatus(HttpStatus.OK)
+          .stores('userAccessToken', 'access_token');
       });
     });
   });
 
   describe('User', () => {
-    describe('Get me', () => {});
+    describe('Get me', () => {
+      it('Get Current User unauthorized', () => {
+        return pactum
+          .spec()
+          .get(`/users/me`)
+          .expectStatus(HttpStatus.UNAUTHORIZED);
+      });
 
-    describe('Edit user', () => {});
+      it('Get Current User success', () => {
+        return pactum
+          .spec()
+          .get(`/users/me`)
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .expectStatus(HttpStatus.OK);
+      });
+    });
+
+    describe('Edit User success', () => {
+      it('Edit User success', () => {
+        const dto: EditUserDto = {
+          firstName: 'User',
+          lastName: 'Test1',
+          email: 'testedit@example.com',
+        };
+        return pactum
+          .spec()
+          .patch(`/users`)
+          .withHeaders({
+            Authorization: 'Bearer $S{userAccessToken}',
+          })
+          .withBody(dto)
+          .expectStatus(HttpStatus.OK)
+          .expectBodyContains(dto.firstName)
+          .expectBodyContains(dto.lastName)
+          .expectBodyContains(dto.email);
+      });
+    });
   });
 
   describe('Bookmark', () => {
@@ -135,8 +173,8 @@ describe('App e2e', () => {
 
     describe('Get bookmark by ID', () => {});
 
-    describe('Edit bookmark', () => {});
+    describe('Edit bookmark by ID', () => {});
 
-    describe('Delete bookmark', () => {});
+    describe('Delete bookmark by ID', () => {});
   });
 });
