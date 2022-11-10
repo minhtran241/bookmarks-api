@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import * as argon2 from 'argon2';
 import slugify from 'slugify';
 import { SignupDto, LoginDto } from './dto';
@@ -8,7 +8,6 @@ import {
   PrismaClientKnownRequestError,
 } from '@prisma/client/runtime';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()

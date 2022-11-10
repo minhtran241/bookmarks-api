@@ -27,7 +27,7 @@ model User {
 
 model Bookmark {
   id          Int      @id @default(autoincrement())
-  title       String   @unique @db.VarChar(50)
+  title       String   @db.VarChar(50)
   slug        String   @unique @db.VarChar(200)
   description String?  @db.VarChar(100)
   link        String
