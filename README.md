@@ -33,8 +33,6 @@ Copy [.env.example](https://github.com/minhtran241/bookmarks-api/blob/main/.env.
 
 The codebase contains [Prisma](https://www.prisma.io/) database abstraction
 
----
-
 ##### Prisma
 
 ---
