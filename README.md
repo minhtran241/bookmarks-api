@@ -28,7 +28,7 @@ Copy .env.example file to your .env file and set environment variables following
 
 ### Database
 
-The codebase contains [Prisma](https://www.prisma.io/) database abstraction.
+The codebase contains [Prisma](https://www.prisma.io/) database abstraction
 
 ---
 
@@ -80,7 +80,7 @@ This applications uses JSON Web Token (JWT) to handle authentication. The token 
 
 ## Project structure
 
-src folder contains logic for all the modules, test folder contains logic for testing of the project
+[src](https://github.com/minhtran241/bookmarks-api/tree/main/src) folder contains logic for all the modules, [test](https://github.com/minhtran241/bookmarks-api/tree/main/test) folder contains logic for testing of the project
 
 ---
 
