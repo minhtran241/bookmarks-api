@@ -20,7 +20,7 @@ Install dependencies
 
     yarn install
 
-Copy .env.example file to your .env file and set environment variables following instructions in the .env.example file (jwt, database, port information)
+Copy .env.example file to your .env file and set environment variables following instructions in the [.env.example](https://github.com/minhtran241/bookmarks-api/blob/main/.env.example) file (jwt, database, port information)
 
     touch .env
 
@@ -131,6 +131,8 @@ src folder contains logic for all the modules, test folder contains logic for te
 ---
 
 ### E2E Testing
+
+- File [.env.test](https://github.com/minhtran241/bookmarks-api/blob/main/.env.test) contains environment variables for testing
 
 ```
 .
