@@ -20,9 +20,12 @@ Install dependencies
 
     yarn install
 
-Copy .env.example file to your .env file and set environment variables following instructions in the [.env.example](https://github.com/minhtran241/bookmarks-api/blob/main/.env.example) file (jwt, database, port information)
+Copy [.env.example](https://github.com/minhtran241/bookmarks-api/blob/main/.env.example) file to your .env file and set environment variables following instructions in this file (jwt, database, port information)
 
-    touch .env
+    APP_PORT=
+    DATABASE_URL="postgresql://username:password@localhost:5434/dbname?schema=public"
+    JWT_EXPIRATION_IN_MINUTES=
+    JWT_SECRET=
 
 ---
 
