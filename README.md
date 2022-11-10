@@ -37,7 +37,7 @@ The codebase contains [Prisma](https://www.prisma.io/) database abstraction
 
 ---
 
-Trigger docker image for PostgreSQL
+Trigger docker container for PostgreSQL
 
     yarn db:dev:up
 
@@ -83,8 +83,6 @@ This applications uses JSON Web Token (JWT) to handle authentication. The token 
 
 [src](https://github.com/minhtran241/bookmarks-api/tree/main/src) folder contains logic for all the modules, [test](https://github.com/minhtran241/bookmarks-api/tree/main/test) folder contains logic for testing of the project
 
----
-
 ### Modules
 
 ```
@@ -128,8 +126,6 @@ This applications uses JSON Web Token (JWT) to handle authentication. The token 
     ├── user.module.ts
     └── user.service.ts
 ```
-
----
 
 ### E2E Testing
 
